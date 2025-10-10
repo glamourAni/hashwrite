@@ -1,0 +1,36 @@
+// Input
+
+<div
+						className="wrapper md:basis-[2000px]
+
+				"
+					>
+						<h2>
+							generate hashtags for{" "}
+							<span className="current-sm text-blue-600 italic">
+								instagram
+							</span>
+						</h2>
+
+						<input type="text" placeholder="#keyword" />
+
+						<div className="results-section"></div>
+					</div>
+					<div className=" relative bg-usage py-4 pr-4  md:w-[400px]">
+						<img
+							className="md:w-8 w-5 md:h-8 h-5 absolute md:relative md:top-[-26px] top-[-6px] right-3 hover:bg-gray-400 dark:hover:bg-white rounded-[50%] mb-4 mt-6 cursor-pointer"
+							src="./question.svg"
+							alt="hint"
+						/>
+						<div className="md:absolute md:top-[60px] ">
+							<h3 className="text-[1.1rem] font-medium text-header ">
+								Usage
+							</h3>
+							<p className="text-[0.7rem]">
+								Select your preferred social media platform,
+								enter a keyword in and click enter to generate
+								trending hashtags.
+							</p>
+						</div>
+					</div>
+

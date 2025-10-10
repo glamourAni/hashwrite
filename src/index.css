@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+@theme {
+	--color-primary1: #ebebf6;
+	--color-main: oklch(55.2% 0.016 285.938);
+	--color-header: oklch(83.3% 0.145 321.434);
+	--color-plaintext: oklch(55.1% 0.027 264.364);
+	--color-usage: oklch(98.5% 0.002 247.839);
+	--color-footer: oklch(15.3% 0.051 264.364);
+	--text-medium: 1.2rem;
+	--text-large: 1.5rem;
+	--text-xlarge: 2.1rem;
+}
+
+@layer base {
+	li {
+		@apply text-medium self-center;
+	}
+
+	h2 {
+		@apply mb-6 mt-2 text-xlarge md:text-5xl 
+		
+		 capitalize font-bold;
+	}
+	h3 {
+		@apply text-4xl font-bold mb-3;
+	}
+	p {
+		@apply text-medium md:text-2xl text-plaintext mb-3;
+	}
+	input {
+		@apply w-[calc(100%-16px)] bg-primary1 p-2 outline-0 md:text-medium;
+	}
+}
+@layer components {
+	.row {
+		@apply flex gap-10;
+	}
+	.main-content {
+		@apply mt-[10em];
+	}
+	.input-field {
+		@apply relative;
+	}
+	.searched {
+		@apply bg-header text-shadow-black absolute top-1.5 left-2 px-6 py-1;
+	}
+	/* /////////s */
+}
+
+@utility flex-center {
+	@apply flex justify-center items-center;
+}
+@utility y-align {
+	@apply self-center;
+}
+@utility white-bold {
+	@apply text-white font-medium;
+}
