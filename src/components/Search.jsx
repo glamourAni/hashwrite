@@ -1,50 +1,58 @@
-import React from "react"
-import { useState } from "react"
+import React from "react";
+import { useState } from "react";
 
 const Search = ({ searchTerm, updateTerm }) => {
-	const [inputText, setInputText] = useState("")
+  const [selectedTerm, updateSelectedTerm] = useState();
 
-	function handleUpdate() {
-		updateTerm(`#${inputText}`)
-	}
+  /**
+   *
+   * @param {KeyboardEvent} e
+   */
+  function deleteChipOnBackspace(e) {
+    if (e.key !== "Backspace") return;
+    updateSelectedTerm("");
+    updateTerm("");
 
-	{
-		/* track keyboard input and store on Tab, Space or Enter key press*/
-	}
-	const [isNotFocusedInput, setIsNotFocusedInput] = useState(false)
+    document.removeEventListener("keydown", deleteChipOnBackspace);
 
-	function handleLoseInputFocus(e) {
-		const element = e.target
-		if (e.key === "Tab" || e.key === "Enter" || e.key === " ") {
-			console.log(element)
-			{
-				/* Clear input */
-			}
-			handleUpdate()
-			// setInputText("")
-			// updateTerm()?
-			element.blur()
-			setIsNotFocusedInput(true)
-		}
-	}
-	return (
-		<div className="input-field">
-			<input
-				className="input-box-search"
-				onClick={() => setIsNotFocusedInput(false)}
-				type="text"
-				placeholder="#keyword"
-				onKeyDown={handleLoseInputFocus}
-				onChange={(e) => setInputText(e.target.value)}
-				value={inputText}
-			/>
+    /**
+     * @type {HTMLInputElement}
+     */
+    const input = document.getElementById("input");
 
-			{/* display the tracked text in a span, positioned within the input field */}
-			{inputText && isNotFocusedInput && (
-				<span className="searched">{searchTerm}</span>
-			)}
-		</div>
-	)
-}
+    if (input) {
+      setTimeout(() => input.focus(), 200);
+    }
+  }
 
-export default Search
+  /**
+   *
+   * @param {KeyboardEvent} e
+   */
+  function checkSubmission(e) {
+    if (e.key === "Enter") {
+      updateSelectedTerm(`#${searchTerm}`);
+      document.addEventListener("keydown", deleteChipOnBackspace);
+    }
+  }
+
+  return (
+    <div className="input-field">
+      <input
+        id="input"
+        className="input-box-search"
+        disabled={!!selectedTerm}
+        type="text"
+        placeholder="#keyword"
+        onChange={(e) => updateTerm(e.target.value)}
+        onKeyDown={checkSubmission}
+        value={searchTerm}
+      />
+
+      {/* display the tracked text in a span, positioned within the input field */}
+      {selectedTerm && <span className="searched">{selectedTerm}</span>}
+    </div>
+  );
+};
+
+export default Search;
