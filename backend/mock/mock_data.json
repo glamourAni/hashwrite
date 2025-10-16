@@ -1,7 +1,7 @@
 {
-	"fitness": [
+	"#fitness": [
 		"#fitness",
-		"fitgirl",
+		"#fitgirl",
 		"#FitnessGoals",
 		"#WorkoutRoutine",
 		"#GymMotivation",
@@ -13,7 +13,7 @@
 		"#NoExcuses",
 		"#TrainHard"
 	],
-	"health": [
+	"#health": [
 		"#HealthyLiving",
 		"#WellnessJourney",
 		"#EatClean",
@@ -26,7 +26,7 @@
 		"#HealthIsWealth"
 	],
 
-	"tech": [
+	"#tech": [
 		"#TechLife",
 		"#Innovation",
 		"#CodingJourney",

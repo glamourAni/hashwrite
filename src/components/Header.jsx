@@ -1,4 +1,5 @@
 import React from "react"
+import { NavLink } from "react-router-dom"
 
 const Header = () => {
 	return (
@@ -15,10 +16,14 @@ const Header = () => {
 					<li className="">About</li>
 				</ul>
 				<ul className="row ">
-					<li>Login</li>
-					<li>Signup</li>
-					<div className="w-[100%] bg-white p-2">
-						<li className="bg-amber-50">
+					<li>
+						<NavLink to="/login">Login</NavLink>
+					</li>
+					<li>
+						<NavLink to="/signup">Signup</NavLink>
+					</li>
+					<div className="w-[100%] my-2 bg-blue-500 p-2">
+						<li className="bg-blue-500">
 							Instagram{" "}
 							<span className="relative top-1 inline-block">
 								<img

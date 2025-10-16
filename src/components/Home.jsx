@@ -1,11 +1,60 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useState } from "react"
 import Header from "./Header"
 import Footer from "./Footer"
 import Search from "./Search"
+import { ErrorBoundary } from "react-error-boundary"
+import Hint from "./Hint"
+
+function ErrorFallback({ error }) {
+	return (
+		<div role="alert">
+			<p>Something went wrong:</p>
+			<pre style={{ color: "red" }}>{error.message}</pre>
+		</div>
+	)
+}
 
 const Home = () => {
-	const [searchTerm, setSearchTerm] = useState("")
+	const [searchHashtag, setSearchHashtag] = useState("")
+	const [hashtagList, setHashtagList] = useState([])
+	const [isLoading, setIsLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState("")
+
+	const fetchHashtags = async (query) => {
+		setIsLoading(true)
+
+		try {
+			const response = await fetch(
+				`http://localhost:5500/api/v1/hashtags?name=${encodeURIComponent(
+					query
+				)}`
+			)
+			if (!response.ok) {
+				throw new Error(response.status)
+			}
+			const result = await response.json()
+
+			const data = result.data
+
+			if (!data || data === undefined) {
+				setErrorMessage("Keyword is not valid. Try a valid keyword.")
+				// console.log(errorMessage)
+			}
+			//append hashtags to the predefined list
+			setHashtagList(data || [])
+		} catch (error) {
+			console.log(`Error fetching data: ${error}`)
+			console.log(query)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	useEffect(() => {
+		if (!searchHashtag) return
+		fetchHashtags(searchHashtag)
+	}, [searchHashtag])
 
 	return (
 		<div className="min-h-screen flex flex-col">
@@ -22,29 +71,36 @@ const Home = () => {
 						</h2>
 
 						<Search
-							searchTerm={searchTerm}
-							updateTerm={setSearchTerm}
+							searchTerm={searchHashtag}
+							updateTerm={setSearchHashtag}
 						/>
 
-						<div className="results-section"></div>
+						{searchHashtag && (
+							<div className="results-section">
+								{isLoading ? (
+									<p className="text-green-500">
+										Please wait for hashtags to load...
+									</p>
+								) : hashtagList < 1 ? (
+									<p className="text-red-800">
+										{errorMessage}
+									</p>
+								) : (
+									<ul>
+										{hashtagList.map((hashtag) => (
+											<li
+												className="item"
+												key={hashtag.id}
+											>
+												{hashtag}
+											</li>
+										))}
+									</ul>
+								)}
+							</div>
+						)}
 					</div>
-					<div className=" relative bg-usage py-4 pr-4  md:w-[400px]">
-						<img
-							className="md:w-8 w-5 md:h-8 h-5 absolute md:relative md:top-[-26px] top-[-6px] right-3 hover:bg-gray-400 dark:hover:bg-white rounded-[50%] mb-4 mt-6 cursor-pointer"
-							src="./question.svg"
-							alt="hint"
-						/>
-						<div className="md:absolute md:top-[60px] ">
-							<h3 className="text-[1.1rem] font-medium text-header ">
-								Usage
-							</h3>
-							<p className="text-[0.7rem]">
-								Select your preferred social media platform,
-								enter a keyword in and click enter to generate
-								trending hashtags.
-							</p>
-						</div>
-					</div>
+					<Hint />
 				</section>
 				<section className="why">
 					<div className="mb-10">

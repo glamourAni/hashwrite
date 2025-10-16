@@ -2,6 +2,12 @@ import React from "react"
 import { useState } from "react"
 
 const Search = ({ searchTerm, updateTerm }) => {
+	const [inputText, setInputText] = useState("")
+
+	function handleUpdate() {
+		updateTerm(`#${inputText}`)
+	}
+
 	{
 		/* track keyboard input and store on Tab, Space or Enter key press*/
 	}
@@ -11,9 +17,12 @@ const Search = ({ searchTerm, updateTerm }) => {
 		const element = e.target
 		if (e.key === "Tab" || e.key === "Enter" || e.key === " ") {
 			console.log(element)
-			// updateTerm("")
-			element.placeholder = ""
-			element.readOnly = true
+			{
+				/* Clear input */
+			}
+			handleUpdate()
+			// setInputText("")
+			// updateTerm()?
 			element.blur()
 			setIsNotFocusedInput(true)
 		}
@@ -21,15 +30,17 @@ const Search = ({ searchTerm, updateTerm }) => {
 	return (
 		<div className="input-field">
 			<input
+				className="input-box-search"
+				onClick={() => setIsNotFocusedInput(false)}
 				type="text"
 				placeholder="#keyword"
 				onKeyDown={handleLoseInputFocus}
-				onChange={(e) => updateTerm(e.target.value)}
-				value={searchTerm}
+				onChange={(e) => setInputText(e.target.value)}
+				value={inputText}
 			/>
 
 			{/* display the tracked text in a span, positioned within the input field */}
-			{searchTerm && isNotFocusedInput && (
+			{inputText && isNotFocusedInput && (
 				<span className="searched">{searchTerm}</span>
 			)}
 		</div>
